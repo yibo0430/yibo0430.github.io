@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>粉色花瓣飘落</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(
+        135deg, #fff0f5, #ffe0ec, #fff5f8
+      );
+      font-family: "Microsoft YaHei", sans-serif;
+    }
+
+    #petals {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .petal {
+      position: absolute;
+      top: -12vh;
+      width: var(--size);
+      height: calc(var(--size) * 1.42);
+      left: var(--left);
+      opacity: var(--opacity);
+
+      background: linear-gradient(
+        145deg, #fff0f6, #ffb7d0, #f47eaa
+      );
+
+      border-radius: 75% 15% 65% 35% / 65% 25% 75% 35%;
+
+      animation:
+        fall var(--duration) linear var(--delay) infinite,
+        sway var(--sway-duration) ease-in-out
+        var(--delay) infinite alternate;
+    }
+
+    @keyframes fall {
+      0% {
+        top: -12vh;
+        transform: translateX(0) rotate(0deg);
+      }
+      100% {
+        top: 112vh;
+        transform: translateX(var(--drift))
+                   rotate(var(--spin));
+      }
+    }
+
+    @keyframes sway {
+      from { margin-left: -28px; }
+      to   { margin-left: 28px; }
+    }
+
+    .content {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      pointer-events: none;
+      color: #a04b6f;
+    }
+
+    h1 {
+      font-size: clamp(32px, 6vw, 72px);
+      font-weight: 500;
+      letter-spacing: .12em;
+    }
+
+    p {
+      letter-spacing: .15em;
+    }
+  </style>
+</head>
+<body>
+  <div id="petals"></div>
+
+  <main class="content">
+    <div>
+      <h1>花间漫舞</h1>
+      <p>愿每一个瞬间，都温柔而浪漫</p>
+    </div>
+  </main>
+
+  <script>
+    const container = document.getElementById("petals");
+    const petalCount = 42;
+
+    for (let i = 0; i < petalCount; i++) {
+      const petal = document.createElement("span");
+      petal.className = "petal";
+
+      const size = 10 + Math.random() * 19;
+      const duration = 8 + Math.random() * 12;
+
+      petal.style.setProperty("--size", `${size}px`);
+      petal.style.setProperty("--left", `${Math.random() * 100}%`);
+      petal.style.setProperty("--opacity", `${0.42 + Math.random() * 0.5}`);
+      petal.style.setProperty("--duration", `${duration}s`);
+      petal.style.setProperty("--sway-duration", `${2.5 + Math.random() * 4}s`);
+      petal.style.setProperty("--delay", `${-Math.random() * duration}s`);
+      petal.style.setProperty("--drift", `${-100 + Math.random() * 200}px`);
+      petal.style.setProperty("--spin", `${180 + Math.random() * 540}deg`);
+
+      container.appendChild(petal);
+    }
+  </script>
+</body>
+</html>
